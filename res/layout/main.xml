@@ -5,9 +5,32 @@
               android:layout_height="fill_parent"
 >
     <TextView
-            android:layout_width="fill_parent"
+            android:id = "@+id/textLogo"
+            android:layout_marginTop="50px"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World, Main"
+            android:text="Chess"
     />
+
+    <Button
+            android:id = "@+id/buttonGame"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="300dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Launch game"
+    />
+
+    <Button
+            android:id = "@+id/buttonSettings"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="300dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+    />
+
+
 </LinearLayout>
 
