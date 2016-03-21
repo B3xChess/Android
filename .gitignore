@@ -1,1 +1,7 @@
 local.properties
+.idea
+assets
+bin
+gen
+libs
+out
