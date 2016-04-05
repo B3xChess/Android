@@ -29,7 +29,6 @@ public class Main extends Activity implements View.OnClickListener {
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
         buttonSettings.setOnClickListener(this);
 
-        TestInitGame();
     }
 
     @Override
@@ -44,15 +43,5 @@ public class Main extends Activity implements View.OnClickListener {
         }
 
 
-    }
-
-    public void TestInitGame(){
-        ChessBoard myChessBoard = new ChessBoard();
-        System.out.println(myChessBoard);
-        System.out.println("A5 : " + myChessBoard.getSquare('A',5));
-        System.out.println("A9 : " + myChessBoard.getSquare('A',9));
-        System.out.println("H6 : " + myChessBoard.getSquare('H',6));
-        System.out.println("H0 : " + myChessBoard.getSquare('H',0));
-        System.out.println("D5 : " + myChessBoard.getSquare('D',5));
     }
 }

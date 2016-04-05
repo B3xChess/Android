@@ -1,5 +1,13 @@
 package fr.snak.chess.Models;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 import fr.snak.chess.Interfaces.ISquare;
 
 import java.util.ArrayList;
@@ -7,11 +15,52 @@ import java.util.ArrayList;
 /**
  * Created by Nautile on 09/03/2016.
  */
-public class ChessBoard {
+public class ChessBoard extends View implements View.OnTouchListener {
+    final int NB_SQUARE_PAR_LINE = 8;
     private ArrayList<ISquare> chessboard;
+    Paint paint = new Paint();
+    private int ref,margin,margeleft,margeright,margetop,margebot,line,calcLine,part;
 
-    public ChessBoard(){
+    public ChessBoard(Context context, AttributeSet attrs) {
+        super(context, attrs);
         this.chessboard = init();
+        this.setOnTouchListener(this);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        if(canvas.getWidth() > canvas.getHeight()) {
+            ref = (int) (canvas.getHeight()*0.85);
+            margin = (int) (canvas.getHeight()*0.15);
+        }else {
+            ref = (int) (canvas.getWidth()*0.85);
+            margin = (int) (canvas.getWidth()*0.15);
+        }
+        part = (int) ref / NB_SQUARE_PAR_LINE;
+        line = -1;
+        for(int i = 0; i<Math.pow(NB_SQUARE_PAR_LINE,2); i++) {
+            calcLine = (i-i%NB_SQUARE_PAR_LINE)/NB_SQUARE_PAR_LINE;
+            if(calcLine != line){
+                line = calcLine;
+                margetop = line*part + margin/2;
+                margeleft = margin/2;
+            }else{
+                margeleft = margin/2 + part*(i%NB_SQUARE_PAR_LINE);
+            }
+            margebot = margetop + part;
+            margeright = margeleft + part;
+
+            if((line+i)%2==1){paint.setColor(Color.parseColor("#e6e6ff"));}else{paint.setColor(Color.parseColor("#a7823d"));}
+            Rect rect = new Rect(margeleft, margetop, margeright, margebot);
+
+            canvas.drawRect(rect, paint);
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        System.out.println(event.getX()+" : "+event.getY());
+        return false;
     }
 
     public ISquare getSquare(char line, int column){
