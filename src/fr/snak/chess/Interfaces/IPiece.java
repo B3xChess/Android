@@ -1,5 +1,8 @@
 package fr.snak.chess.Interfaces;
 
+import android.content.Context;
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 
 /**
@@ -25,4 +28,7 @@ public interface IPiece {
     int getType();
     int getName();
     void showMoves(ArrayList<ISquare> chessboard);
+
+    void setImage(Context context, RelativeLayout myLayout, int width, int height, int left, int top);
+    void animate(int left, int top);
 }

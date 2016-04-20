@@ -67,7 +67,7 @@ public class ChessBoard extends View implements View.OnTouchListener{
             margeBot = margeTop + part;
             margeRight = margeLeft + part;
 
-            if((line+i)%2==1){paintSquare.setColor(Color.parseColor("#e6e6ff"));}else{paintSquare.setColor(Color.parseColor("#a7823d"));}
+            if((line+i)%2==1){paintSquare.setColor(Color.parseColor("#a7823d"));}else{paintSquare.setColor(Color.parseColor("#e6e6ff"));}
             Rect rect = new Rect(margeLeft, margeTop, margeRight, margeBot);
 
             canvas.drawRect(rect, paintSquare);
@@ -106,73 +106,17 @@ public class ChessBoard extends View implements View.OnTouchListener{
 
             if(!square.isEmpty()){
                 IPiece piece = square.getPiece();
-                int name = piece.getName();
-                int image = IPiece.NO_SKIN;
-                switch(name){
-                    case IPiece.PAWN_WHITE:
-                        image = R.drawable.wpawn;
-                        break;
-                    case IPiece.PAWN_BLACK:
-                        image = R.drawable.bpawn;
-                        break;
-                    case IPiece.BISHOP_WHITE:
-                        image = R.drawable.wbishop;
-                        break;
-                    case IPiece.BISHOP_BLACK:
-                        image = R.drawable.bbishop;
-                        break;
-                    case IPiece.TOWER_WHITE:
-                        image = R.drawable.wtower;
-                        break;
-                    case IPiece.TOWER_BLACK:
-                        image = R.drawable.btower;
-                        break;
-                    case IPiece.KNIGHT_WHITE:
-                        image = R.drawable.wknight;
-                        break;
-                    case IPiece.KNIGHT_BLACK:
-                        image = R.drawable.bknight;
-                        break;
-                    case IPiece.QUEEN_WHITE:
-                        image = R.drawable.wqueen;
-                        break;
-                    case IPiece.QUEEN_BLACK:
-                        image = R.drawable.bqueen;
-                        break;
-                    case IPiece.KING_WHITE:
-                        image = R.drawable.wking;
-                        break;
-                    case IPiece.KING_BLACK:
-                        image = R.drawable.bking;
-                        break;
-                }
 
-                if(image != IPiece.NO_SKIN) {
-                    int marginDrawable = (int) (part * 0.2);
+                int marginDrawable = (int) (part * 0.2);
 
-                    RelativeLayout myLayout = (RelativeLayout)this.getParent();
-                    RelativeLayout.LayoutParams params;
+                RelativeLayout myLayout = (RelativeLayout)this.getParent();
 
-                    ImageView imageView = new ImageView(this.getContext());
-                    imageView.setImageResource(image);
+                int width = (margeRight - marginDrawable) - ( margeLeft + marginDrawable);
+                int height = (margeBot - marginDrawable) - (margeTop + marginDrawable);
+                int left = margeLeft + marginDrawable;
+                int top = margeTop + marginDrawable;
 
-                    params = new RelativeLayout.LayoutParams((margeRight - marginDrawable) - ( margeLeft + marginDrawable), (margeBot - marginDrawable) - (margeTop + marginDrawable));
-                    params.leftMargin = margeLeft + marginDrawable;
-                    params.topMargin = margeTop + marginDrawable;
-                    imageView.setLayoutParams(params);
-                    myLayout.addView(imageView, params);
-
-                    if(this.selectedSquare == square){
-                        int xCurrentPos = imageView.getLeft();
-                        int yCurrentPos = imageView.getTop();
-
-                        TranslateAnimation anim = new TranslateAnimation(xCurrentPos, xCurrentPos+150, yCurrentPos, yCurrentPos);
-                        anim.setDuration(1000);
-
-                        imageView.startAnimation(anim);
-                    }
-                }
-
+                piece.setImage(getContext(), myLayout, width, height, left, top);
             }
         }
     }
@@ -189,6 +133,24 @@ public class ChessBoard extends View implements View.OnTouchListener{
         bot = event.getY()-margin/2 < ref;
         if(left && top && right && bot){
             ISquare square = getSquare(line, column);
+            int leftImage = margin/2 + ref / NB_SQUARE_PAR_LINE * column + (int) (ref / NB_SQUARE_PAR_LINE*0.2);
+            int topImage = margin/2 + ref / NB_SQUARE_PAR_LINE * line + (int) (ref / NB_SQUARE_PAR_LINE*0.2);
+
+            if(selectedSquare != null) {
+                switch(square.getStatus()){
+                    case ISquare.STATUS_MOVE:
+                        square.add(selectedSquare.getPiece());
+                        square.getPiece().animate(leftImage, topImage);
+                        selectedSquare.remove();
+                        break;
+                    case ISquare.STATUS_TARGETABLE:
+                        square.add(selectedSquare.getPiece());
+                        square.getPiece().animate(leftImage, topImage);
+                        selectedSquare.remove();
+                        break;
+                }
+            }
+
             this.resetSquares();
             if(selectedSquare == null) {
                 square.setStatus(ISquare.STATUS_SELECTED);
