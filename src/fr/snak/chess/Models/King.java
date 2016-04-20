@@ -1,6 +1,9 @@
 package fr.snak.chess.Models;
 
 import fr.snak.chess.Interfaces.IPiece;
+import fr.snak.chess.Interfaces.ISquare;
+
+import java.util.ArrayList;
 
 /**
  * Created by Nautile on 09/03/2016.
@@ -8,13 +11,96 @@ import fr.snak.chess.Interfaces.IPiece;
 public class King implements IPiece {
 
     private int value;
-    private char color;
+    private int type;
 
-    public King(char color){
-        this.color = color;
+    public King(int type){
+        this.type = type;
         this.value = 40;
     }
 
+    @Override
+    public int getName() {
+        if(type == FRONT_PIECE){return KING_BLACK;}else{return KING_WHITE;}
+    }
+
+    @Override
+    public void showMoves(ArrayList<ISquare> chessboard) {
+        int index = -1;
+        ISquare square;
+        for(int i =0; i < chessboard.size(); i++){
+            square = chessboard.get(i);
+            if(!square.isEmpty()){
+                IPiece piece = square.getPiece();
+                if(piece == this){
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if(index != -1) {
+            getDiagonal(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE-1);
+            getDiagonal(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE+1);
+            getDiagonal(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE+1);
+            getDiagonal(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE-1);
+            getLine(chessboard, index, -1);
+            getLine(chessboard, index, 1);
+            getColumn(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE);
+            getColumn(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE);
+        }
+    }
+
+    private void getLine(ArrayList<ISquare> chessboard, int index, int step){
+        int i = index;
+        int line = ChessBoard.currentLine(i);
+        i += step;
+        int newLine = ChessBoard.currentLine(i);
+        if (newLine == line && i < chessboard.size() && i > 0) {
+            ISquare square = chessboard.get(i);
+            if (!square.isEmpty()) {
+                IPiece piece = square.getPiece();
+                if (piece.getType() != type) {
+                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                }
+            }else {
+                square.setStatus(ISquare.STATUS_MOVE);
+            }
+        }
+    }
+
+    private void getColumn(ArrayList<ISquare> chessboard, int index, int step){
+        int i = index + step;
+        if (i < chessboard.size() && i > 0){
+            ISquare square = chessboard.get(i);
+            if(!square.isEmpty()){
+                IPiece piece = square.getPiece();
+                if(piece.getType() != type){
+                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                }
+            }else {
+                square.setStatus(ISquare.STATUS_MOVE);
+            }
+        }
+    }
+
+    private void getDiagonal(ArrayList<ISquare> chessboard, int index, int step) {
+        int i = index;
+        int line = ChessBoard.currentLine(i);
+        i += step;
+        if (i < chessboard.size() && i > 0) {
+            int newLine = ChessBoard.currentLine(i);
+            if (newLine == line + (int) Math.signum(step)) {
+                ISquare square = chessboard.get(i);
+                if (!square.isEmpty()) {
+                    IPiece piece = square.getPiece();
+                    if (piece.getType() != type) {
+                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                    }
+                }else{
+                    square.setStatus(ISquare.STATUS_MOVE);
+                }
+            }
+        }
+    }
 
     @Override
     public int getValue() {
@@ -22,15 +108,15 @@ public class King implements IPiece {
     }
 
     @Override
-    public char getColor() {
-        return this.color;
+    public int getType() {
+        return this.type;
     }
 
     @Override
     public String toString() {
         return "King{" +
                 "value=" + value +
-                ", color=" + color +
+                ", type=" + type +
                 '}';
     }
 }
