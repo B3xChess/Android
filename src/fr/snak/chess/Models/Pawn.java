@@ -1,6 +1,7 @@
 package fr.snak.chess.Models;
 
 import android.content.Context;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -27,11 +28,6 @@ public class Pawn implements IPiece {
     }
 
     @Override
-    public int getName() {
-        if(type == FRONT_PIECE){return PAWN_BLACK;}else{return PAWN_WHITE;}
-    }
-
-    @Override
     public void showMoves(ArrayList<ISquare> chessboard) {
         int index = -1;
         ISquare square;
@@ -47,49 +43,67 @@ public class Pawn implements IPiece {
         }
         if(index != -1){
             if(type == FRONT_PIECE){
-                square = chessboard.get(index-8);
-                if(square.isEmpty()){
-                    square.setStatus(ISquare.STATUS_MOVE);
-                    if(index < 8*7 && index >= 8*6){
-                        square = chessboard.get(index-8*2);
-                        if(square.isEmpty()){
-                            square.setStatus(ISquare.STATUS_MOVE);
+                int newIndex = index-8;
+                if(newIndex >= 0) {
+                    square = chessboard.get(newIndex);
+                    if (square.isEmpty()) {
+                        square.setStatus(ISquare.STATUS_MOVE);
+                        if (index < ChessBoard.NB_SQUARE_PAR_LINE * 7 && index >= ChessBoard.NB_SQUARE_PAR_LINE * 6) {
+                            square = chessboard.get(index - ChessBoard.NB_SQUARE_PAR_LINE * 2);
+                            if (square.isEmpty()) {
+                                square.setStatus(ISquare.STATUS_MOVE);
+                            }
                         }
                     }
+                    if (index != -1) {
+                        squareEated(chessboard, index, -9, -1);
+                        squareEated(chessboard, index, -7, +1);
+                    }
                 }
-                ArrayList<ISquare> squares = new ArrayList();
-                square = chessboard.get(index-7);
-                squares.add(square);
-                square = chessboard.get(index-9);
-                squares.add(square);
-                squareEated(squares);
             }else{
-                square = chessboard.get(index+8);
-                if(square.isEmpty()){
-                    square.setStatus(ISquare.STATUS_MOVE);
-                    if(index < 8*2 && index >= 8){
-                        square = chessboard.get(index+8*2);
-                        if(square.isEmpty()){
-                            square.setStatus(ISquare.STATUS_MOVE);
+                int newIndex = index+8;
+                if(newIndex < chessboard.size()) {
+                    square = chessboard.get(newIndex);
+                    if (square.isEmpty()) {
+                        square.setStatus(ISquare.STATUS_MOVE);
+                        if (index < ChessBoard.NB_SQUARE_PAR_LINE * 2 && index >= ChessBoard.NB_SQUARE_PAR_LINE) {
+                            square = chessboard.get(newIndex + ChessBoard.NB_SQUARE_PAR_LINE);
+                            if (square.isEmpty()) {
+                                square.setStatus(ISquare.STATUS_MOVE);
+                            }
                         }
                     }
+                    if (index != -1) {
+                        squareEated(chessboard, index, +9, +1);
+                        squareEated(chessboard, index, +7, -1);
+                    }
                 }
-                ArrayList<ISquare> squares = new ArrayList();
-                square = chessboard.get(index+7);
-                squares.add(square);
-                square = chessboard.get(index+9);
-                squares.add(square);
-                squareEated(squares);
             }
         }
     }
 
-    private void squareEated(ArrayList<ISquare> squares){
-        for(ISquare squareSelected : squares) {
-            if (!squareSelected.isEmpty()) {
-                IPiece piece = squareSelected.getPiece();
-                if (piece.getType() != this.type) {
-                    squareSelected.setStatus(ISquare.STATUS_TARGETABLE);
+    private void squareEated(ArrayList<ISquare> chessboard, int index, int step, int bord) {
+        int i = index;
+        int column = ChessBoard.currentColumn(i);
+        i += step;
+        ISquare square = null;
+        if (i < chessboard.size() && i >= 0) {
+            int newColumn = ChessBoard.currentColumn(i);
+            if ((int) Math.signum(bord) > 0) {
+                if(newColumn > column) {
+                    square = chessboard.get(i);
+                }
+            }else{
+                if(newColumn < column) {
+                    square = chessboard.get(i);
+                }
+            }
+            if(square != null) {
+                if (!square.isEmpty()) {
+                    IPiece piece = square.getPiece();
+                    if (piece.getType() != type) {
+                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                    }
                 }
             }
         }
@@ -120,7 +134,7 @@ public class Pawn implements IPiece {
         leftView = left-xCurrentPos;
         topView = top-yCurrentPos;
         TranslateAnimation anim = new TranslateAnimation(0, leftView, 0, topView);
-        anim.setDuration(1000);
+        anim.setDuration(800);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
 
@@ -144,6 +158,13 @@ public class Pawn implements IPiece {
             }
         });
         imageView.startAnimation(anim);
+    }
+
+    @Override
+    public void hideImage() {
+        if(imageView != null){
+            imageView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

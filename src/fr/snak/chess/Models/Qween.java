@@ -1,6 +1,7 @@
 package fr.snak.chess.Models;
 
 import android.content.Context;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -24,11 +25,6 @@ public class Qween implements IPiece {
     public Qween(int type){
         this.type = type;
         this.value = 20;
-    }
-
-    @Override
-    public int getName() {
-        if(type == FRONT_PIECE){return QUEEN_BLACK;}else{return QUEEN_WHITE;}
     }
 
     @Override
@@ -62,7 +58,7 @@ public class Qween implements IPiece {
         int line = ChessBoard.currentLine(i);
         i += step;
         int newLine = ChessBoard.currentLine(i);
-        while (newLine == line && i < chessboard.size() && i > 0) {
+        while (newLine == line && i < chessboard.size() && i >= 0) {
             ISquare square = chessboard.get(i);
             if (!square.isEmpty()) {
                 IPiece piece = square.getPiece();
@@ -80,7 +76,7 @@ public class Qween implements IPiece {
     private void getColumn(ArrayList<ISquare> chessboard, int index, int step){
         int i = index;
         i += step;
-        while (i < chessboard.size() && i > 0){
+        while (i < chessboard.size() && i >= 0){
             ISquare square = chessboard.get(i);
             if(!square.isEmpty()){
                 IPiece piece = square.getPiece();
@@ -99,7 +95,7 @@ public class Qween implements IPiece {
         int line = ChessBoard.currentLine(i);
         i += step;
         int newLine;
-        while (i < chessboard.size() && i > 0) {
+        while (i < chessboard.size() && i >= 0) {
             newLine = ChessBoard.currentLine(i);
             if (newLine == line + (int) Math.signum(step)) {
                 line = newLine;
@@ -144,7 +140,7 @@ public class Qween implements IPiece {
         leftView = left-xCurrentPos;
         topView = top-yCurrentPos;
         TranslateAnimation anim = new TranslateAnimation(0, leftView, 0, topView);
-        anim.setDuration(1000);
+        anim.setDuration(800);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
 
@@ -168,6 +164,13 @@ public class Qween implements IPiece {
             }
         });
         imageView.startAnimation(anim);
+    }
+
+    @Override
+    public void hideImage() {
+        if(imageView != null){
+            imageView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

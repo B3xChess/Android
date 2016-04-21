@@ -1,6 +1,7 @@
 package fr.snak.chess.Models;
 
 import android.content.Context;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -24,11 +25,6 @@ public class King implements IPiece {
     public King(int type){
         this.type = type;
         this.value = 40;
-    }
-
-    @Override
-    public int getName() {
-        if(type == FRONT_PIECE){return KING_BLACK;}else{return KING_WHITE;}
     }
 
     @Override
@@ -62,7 +58,7 @@ public class King implements IPiece {
         int line = ChessBoard.currentLine(i);
         i += step;
         int newLine = ChessBoard.currentLine(i);
-        if (newLine == line && i < chessboard.size() && i > 0) {
+        if (newLine == line && i < chessboard.size() && i >= 0) {
             ISquare square = chessboard.get(i);
             if (!square.isEmpty()) {
                 IPiece piece = square.getPiece();
@@ -77,7 +73,7 @@ public class King implements IPiece {
 
     private void getColumn(ArrayList<ISquare> chessboard, int index, int step){
         int i = index + step;
-        if (i < chessboard.size() && i > 0){
+        if (i < chessboard.size() && i >= 0){
             ISquare square = chessboard.get(i);
             if(!square.isEmpty()){
                 IPiece piece = square.getPiece();
@@ -94,7 +90,7 @@ public class King implements IPiece {
         int i = index;
         int line = ChessBoard.currentLine(i);
         i += step;
-        if (i < chessboard.size() && i > 0) {
+        if (i < chessboard.size() && i >= 0) {
             int newLine = ChessBoard.currentLine(i);
             if (newLine == line + (int) Math.signum(step)) {
                 ISquare square = chessboard.get(i);
@@ -135,7 +131,7 @@ public class King implements IPiece {
         leftView = left-xCurrentPos;
         topView = top-yCurrentPos;
         TranslateAnimation anim = new TranslateAnimation(0, leftView, 0, topView);
-        anim.setDuration(1000);
+        anim.setDuration(800);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
 
@@ -159,6 +155,13 @@ public class King implements IPiece {
             }
         });
         imageView.startAnimation(anim);
+    }
+
+    @Override
+    public void hideImage() {
+        if(imageView != null){
+            imageView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

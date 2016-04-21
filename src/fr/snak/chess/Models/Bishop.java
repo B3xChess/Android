@@ -1,6 +1,7 @@
 package fr.snak.chess.Models;
 
 import android.content.Context;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -25,11 +26,6 @@ public class Bishop implements IPiece {
         this.type = type;
         this.value = 9;
         this.imageView = null;
-    }
-
-    @Override
-    public int getName() {
-        if(type == FRONT_PIECE){return BISHOP_BLACK;}else{return BISHOP_WHITE;}
     }
 
     @Override
@@ -58,7 +54,7 @@ public class Bishop implements IPiece {
         int line = ChessBoard.currentLine(i);
         i += step;
         int newLine;
-        while (i < chessboard.size() && i > 0){
+        while (i < chessboard.size() && i >= 0){
             newLine = ChessBoard.currentLine(i);
             if(newLine == line+(int) Math.signum(step)){
                 line = newLine;
@@ -103,7 +99,7 @@ public class Bishop implements IPiece {
         leftView = left-xCurrentPos;
         topView = top-yCurrentPos;
         TranslateAnimation anim = new TranslateAnimation(0, leftView, 0, topView);
-        anim.setDuration(1000);
+        anim.setDuration(800);
         anim.setFillAfter(true);
         anim.setAnimationListener(new Animation.AnimationListener() {
 
@@ -127,6 +123,13 @@ public class Bishop implements IPiece {
             }
         });
         imageView.startAnimation(anim);
+    }
+
+    @Override
+    public void hideImage() {
+        if(imageView != null){
+            imageView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

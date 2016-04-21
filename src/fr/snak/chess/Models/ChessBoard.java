@@ -144,6 +144,7 @@ public class ChessBoard extends View implements View.OnTouchListener{
                         selectedSquare.remove();
                         break;
                     case ISquare.STATUS_TARGETABLE:
+                        square.getPiece().hideImage();
                         square.add(selectedSquare.getPiece());
                         square.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
