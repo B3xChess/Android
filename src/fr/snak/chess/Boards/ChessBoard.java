@@ -1,16 +1,13 @@
-package fr.snak.chess.Models;
+package fr.snak.chess.Boards;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Interfaces.ISquare;
-import fr.snak.chess.R;
 
 import java.util.ArrayList;
 
@@ -142,12 +139,14 @@ public class ChessBoard extends View implements View.OnTouchListener{
                         square.add(selectedSquare.getPiece());
                         square.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
+                        upgradePiece(square);
                         break;
                     case ISquare.STATUS_TARGETABLE:
                         square.getPiece().hideImage();
                         square.add(selectedSquare.getPiece());
                         square.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
+                        upgradePiece(square);
                         break;
                 }
             }
@@ -166,6 +165,15 @@ public class ChessBoard extends View implements View.OnTouchListener{
             this.invalidate();
         }
         return false;
+    }
+
+    protected void upgradePiece(ISquare square){
+        if(square.getClass().getName().equals("fr.snak.chess.Squares.SpecialSquare")) {
+            if(!square.isEmpty() && square.getPiece().getClass().getName().equals("fr.snak.chess.Pieces.Pawn")){
+                PopupUpgrade cdd = new PopupUpgrade(this, square);
+                cdd.show();
+            }
+        }
     }
 
     public void resetSquares(){

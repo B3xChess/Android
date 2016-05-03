@@ -1,4 +1,4 @@
-package fr.snak.chess.Models;
+package fr.snak.chess.Squares;
 
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Interfaces.ISquare;
@@ -6,19 +6,19 @@ import fr.snak.chess.Interfaces.ISquare;
 /**
  * Created by Nautile on 09/03/2016.
  */
-public class Square implements ISquare {
+public class SpecialSquare implements ISquare {
 
     private String name;
     private IPiece piece;
     private int status;
 
-    public Square(String name, IPiece piece){
+    public SpecialSquare(String name, IPiece piece){
         this.name = name;
         this.piece = piece;
         this.status = STATUS_DEFAULT;
     }
 
-    public Square(String name){
+    public SpecialSquare(String name){
         this.name = name;
         this.piece = null;
         this.status = STATUS_DEFAULT;
@@ -68,7 +68,7 @@ public class Square implements ISquare {
     @Override
     public String toString() {
         String value = "Square{'" + name + "', "
-        +"'" + status + "'" ;
+                +"'" + status + "'" ;
         if(piece == null){
             value += "null";
         }else{

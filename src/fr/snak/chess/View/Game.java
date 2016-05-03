@@ -7,7 +7,7 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import fr.snak.chess.Boards.Boards;
-import fr.snak.chess.Models.ChessBoard;
+import fr.snak.chess.Boards.ChessBoard;
 import fr.snak.chess.R;
 
 

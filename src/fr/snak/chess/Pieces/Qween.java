@@ -1,4 +1,4 @@
-package fr.snak.chess.Models;
+package fr.snak.chess.Pieces;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import fr.snak.chess.Boards.ChessBoard;
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Interfaces.ISquare;
 import fr.snak.chess.R;
@@ -15,16 +16,16 @@ import java.util.ArrayList;
 /**
  * Created by Nautile on 09/03/2016.
  */
-public class King implements IPiece {
+public class Qween implements IPiece {
 
     private int value;
     private int type;
     private ImageView imageView;
     private int topView, leftView;
 
-    public King(int type){
+    public Qween(int type){
         this.type = type;
-        this.value = 40;
+        this.value = 20;
     }
 
     @Override
@@ -58,31 +59,35 @@ public class King implements IPiece {
         int line = ChessBoard.currentLine(i);
         i += step;
         int newLine = ChessBoard.currentLine(i);
-        if (newLine == line && i < chessboard.size() && i >= 0) {
+        while (newLine == line && i < chessboard.size() && i >= 0) {
             ISquare square = chessboard.get(i);
             if (!square.isEmpty()) {
                 IPiece piece = square.getPiece();
                 if (piece.getType() != type) {
                     square.setStatus(ISquare.STATUS_TARGETABLE);
                 }
-            }else {
-                square.setStatus(ISquare.STATUS_MOVE);
+                break;
             }
+            square.setStatus(ISquare.STATUS_MOVE);
+            i += step;
+            newLine = ChessBoard.currentLine(i);
         }
     }
 
     private void getColumn(ArrayList<ISquare> chessboard, int index, int step){
-        int i = index + step;
-        if (i < chessboard.size() && i >= 0){
+        int i = index;
+        i += step;
+        while (i < chessboard.size() && i >= 0){
             ISquare square = chessboard.get(i);
             if(!square.isEmpty()){
                 IPiece piece = square.getPiece();
                 if(piece.getType() != type){
                     square.setStatus(ISquare.STATUS_TARGETABLE);
                 }
-            }else {
-                square.setStatus(ISquare.STATUS_MOVE);
+                break;
             }
+            square.setStatus(ISquare.STATUS_MOVE);
+            i += step;
         }
     }
 
@@ -90,19 +95,24 @@ public class King implements IPiece {
         int i = index;
         int line = ChessBoard.currentLine(i);
         i += step;
-        if (i < chessboard.size() && i >= 0) {
-            int newLine = ChessBoard.currentLine(i);
+        int newLine;
+        while (i < chessboard.size() && i >= 0) {
+            newLine = ChessBoard.currentLine(i);
             if (newLine == line + (int) Math.signum(step)) {
-                ISquare square = chessboard.get(i);
-                if (!square.isEmpty()) {
-                    IPiece piece = square.getPiece();
-                    if (piece.getType() != type) {
-                        square.setStatus(ISquare.STATUS_TARGETABLE);
-                    }
-                }else{
-                    square.setStatus(ISquare.STATUS_MOVE);
-                }
+                line = newLine;
+            } else {
+                break;
             }
+            ISquare square = chessboard.get(i);
+            if (!square.isEmpty()) {
+                IPiece piece = square.getPiece();
+                if (piece.getType() != type) {
+                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                }
+                break;
+            }
+            square.setStatus(ISquare.STATUS_MOVE);
+            i += step;
         }
     }
 
@@ -111,9 +121,9 @@ public class King implements IPiece {
         if(imageView == null) {
             imageView = new ImageView(context);
             if (type == FRONT_PIECE) {
-                imageView.setImageResource(R.drawable.wking);
+                imageView.setImageResource(R.drawable.wqueen);
             } else {
-                imageView.setImageResource(R.drawable.bking);
+                imageView.setImageResource(R.drawable.bqueen);
             }
             RelativeLayout.LayoutParams params;
             params = new RelativeLayout.LayoutParams(width, height);
@@ -176,7 +186,7 @@ public class King implements IPiece {
 
     @Override
     public String toString() {
-        return "King{" +
+        return "Qween{" +
                 "value=" + value +
                 ", type=" + type +
                 '}';

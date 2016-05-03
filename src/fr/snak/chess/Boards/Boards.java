@@ -2,7 +2,9 @@ package fr.snak.chess.Boards;
 
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Interfaces.ISquare;
-import fr.snak.chess.Models.*;
+import fr.snak.chess.Pieces.*;
+import fr.snak.chess.Squares.SpecialSquare;
+import fr.snak.chess.Squares.Square;
 
 import java.util.ArrayList;
 
@@ -54,14 +56,14 @@ public class Boards {
     private ArrayList<ISquare> boardPawnMoves(){
         ArrayList<ISquare> squares = new ArrayList<>();
         // A
-        squares.add(new Square("a1"));
-        squares.add(new Square("a2"));
-        squares.add(new Square("a3"));
-        squares.add(new Square("a4"));
-        squares.add(new Square("a5"));
-        squares.add(new Square("a6"));
-        squares.add(new Square("a7"));
-        squares.add(new Square("a8"));
+        squares.add(new SpecialSquare("a1"));
+        squares.add(new SpecialSquare("a2"));
+        squares.add(new SpecialSquare("a3"));
+        squares.add(new SpecialSquare("a4"));
+        squares.add(new SpecialSquare("a5"));
+        squares.add(new SpecialSquare("a6"));
+        squares.add(new SpecialSquare("a7"));
+        squares.add(new SpecialSquare("a8"));
         // B
         squares.add(new Square("b1"));
         squares.add(new Square("b2",new Pawn(IPiece.BACK_PIECE)));
@@ -117,14 +119,14 @@ public class Boards {
         squares.add(new Square("g7",new Pawn(IPiece.FRONT_PIECE)));
         squares.add(new Square("g8",new Pawn(IPiece.FRONT_PIECE)));
         // H
-        squares.add(new Square("h1"));
-        squares.add(new Square("h2"));
-        squares.add(new Square("h3"));
-        squares.add(new Square("h4"));
-        squares.add(new Square("h5"));
-        squares.add(new Square("h6"));
-        squares.add(new Square("h7"));
-        squares.add(new Square("h8"));
+        squares.add(new SpecialSquare("h1"));
+        squares.add(new SpecialSquare("h2"));
+        squares.add(new SpecialSquare("h3"));
+        squares.add(new SpecialSquare("h4"));
+        squares.add(new SpecialSquare("h5"));
+        squares.add(new SpecialSquare("h6"));
+        squares.add(new SpecialSquare("h7"));
+        squares.add(new SpecialSquare("h8"));
 
         return squares;
     }
@@ -132,14 +134,14 @@ public class Boards {
     private ArrayList<ISquare> boardBishopMoves(){
         ArrayList<ISquare> squares = new ArrayList<>();
         // A
-        squares.add(new Square("a1"));
-        squares.add(new Square("a2"));
-        squares.add(new Square("a3"));
-        squares.add(new Square("a4"));
-        squares.add(new Square("a5"));
-        squares.add(new Square("a6"));
-        squares.add(new Square("a7"));
-        squares.add(new Square("a8"));
+        squares.add(new SpecialSquare("a1"));
+        squares.add(new SpecialSquare("a2"));
+        squares.add(new SpecialSquare("a3"));
+        squares.add(new SpecialSquare("a4"));
+        squares.add(new SpecialSquare("a5"));
+        squares.add(new SpecialSquare("a6"));
+        squares.add(new SpecialSquare("a7"));
+        squares.add(new SpecialSquare("a8"));
         // B
         squares.add(new Square("b1"));
         squares.add(new Square("b2",new Bishop(IPiece.BACK_PIECE)));
@@ -195,14 +197,14 @@ public class Boards {
         squares.add(new Square("g7",new Bishop(IPiece.FRONT_PIECE)));
         squares.add(new Square("g8"));
         // H
-        squares.add(new Square("h1"));
-        squares.add(new Square("h2",new Bishop(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h3"));
-        squares.add(new Square("h4"));
-        squares.add(new Square("h5",new Bishop(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h6"));
-        squares.add(new Square("h7"));
-        squares.add(new Square("h8"));
+        squares.add(new SpecialSquare("h1"));
+        squares.add(new SpecialSquare("h2",new Bishop(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h3"));
+        squares.add(new SpecialSquare("h4"));
+        squares.add(new SpecialSquare("h5",new Bishop(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h6"));
+        squares.add(new SpecialSquare("h7"));
+        squares.add(new SpecialSquare("h8"));
 
         return squares;
     }
@@ -210,14 +212,14 @@ public class Boards {
     private ArrayList<ISquare> boardTowerMoves(){
         ArrayList<ISquare> squares = new ArrayList<>();
         // A
-        squares.add(new Square("a1",new Tower(IPiece.BACK_PIECE)));
-        squares.add(new Square("a2"));
-        squares.add(new Square("a3"));
-        squares.add(new Square("a4"));
-        squares.add(new Square("a5"));
-        squares.add(new Square("a6"));
-        squares.add(new Square("a7"));
-        squares.add(new Square("a8"));
+        squares.add(new SpecialSquare("a1",new Tower(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("a2"));
+        squares.add(new SpecialSquare("a3"));
+        squares.add(new SpecialSquare("a4"));
+        squares.add(new SpecialSquare("a5"));
+        squares.add(new SpecialSquare("a6"));
+        squares.add(new SpecialSquare("a7"));
+        squares.add(new SpecialSquare("a8"));
         // B
         squares.add(new Square("b1"));
         squares.add(new Square("b2",new Tower(IPiece.BACK_PIECE)));
@@ -273,14 +275,14 @@ public class Boards {
         squares.add(new Square("g7",new Tower(IPiece.FRONT_PIECE)));
         squares.add(new Square("g8"));
         // H
-        squares.add(new Square("h1"));
-        squares.add(new Square("h2",new Tower(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h3"));
-        squares.add(new Square("h4"));
-        squares.add(new Square("h5",new Tower(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h6"));
-        squares.add(new Square("h7"));
-        squares.add(new Square("h8",new Tower(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("h1"));
+        squares.add(new SpecialSquare("h2",new Tower(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h3"));
+        squares.add(new SpecialSquare("h4"));
+        squares.add(new SpecialSquare("h5",new Tower(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h6"));
+        squares.add(new SpecialSquare("h7"));
+        squares.add(new SpecialSquare("h8",new Tower(IPiece.BACK_PIECE)));
 
         return squares;
     }
@@ -288,14 +290,14 @@ public class Boards {
     private ArrayList<ISquare> boardQueenMoves(){
         ArrayList<ISquare> squares = new ArrayList<>();
         // A
-        squares.add(new Square("a1",new Qween(IPiece.BACK_PIECE)));
-        squares.add(new Square("a2"));
-        squares.add(new Square("a3"));
-        squares.add(new Square("a4"));
-        squares.add(new Square("a5"));
-        squares.add(new Square("a6"));
-        squares.add(new Square("a7"));
-        squares.add(new Square("a8"));
+        squares.add(new SpecialSquare("a1",new Qween(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("a2"));
+        squares.add(new SpecialSquare("a3"));
+        squares.add(new SpecialSquare("a4"));
+        squares.add(new SpecialSquare("a5"));
+        squares.add(new SpecialSquare("a6"));
+        squares.add(new SpecialSquare("a7"));
+        squares.add(new SpecialSquare("a8"));
         // B
         squares.add(new Square("b1"));
         squares.add(new Square("b2",new Qween(IPiece.BACK_PIECE)));
@@ -351,14 +353,14 @@ public class Boards {
         squares.add(new Square("g7",new Qween(IPiece.FRONT_PIECE)));
         squares.add(new Square("g8"));
         // H
-        squares.add(new Square("h1"));
-        squares.add(new Square("h2",new Qween(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h3"));
-        squares.add(new Square("h4"));
-        squares.add(new Square("h5",new Qween(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h6"));
-        squares.add(new Square("h7"));
-        squares.add(new Square("h8",new Qween(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("h1"));
+        squares.add(new SpecialSquare("h2",new Qween(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h3"));
+        squares.add(new SpecialSquare("h4"));
+        squares.add(new SpecialSquare("h5",new Qween(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h6"));
+        squares.add(new SpecialSquare("h7"));
+        squares.add(new SpecialSquare("h8",new Qween(IPiece.BACK_PIECE)));
 
         return squares;
     }
@@ -366,14 +368,14 @@ public class Boards {
     private ArrayList<ISquare> boardKingMoves(){
         ArrayList<ISquare> squares = new ArrayList<>();
         // A
-        squares.add(new Square("a1", new King(IPiece.BACK_PIECE)));
-        squares.add(new Square("a2"));
-        squares.add(new Square("a3"));
-        squares.add(new Square("a4"));
-        squares.add(new Square("a5"));
-        squares.add(new Square("a6"));
-        squares.add(new Square("a7"));
-        squares.add(new Square("a8"));
+        squares.add(new SpecialSquare("a1", new King(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("a2"));
+        squares.add(new SpecialSquare("a3"));
+        squares.add(new SpecialSquare("a4"));
+        squares.add(new SpecialSquare("a5"));
+        squares.add(new SpecialSquare("a6"));
+        squares.add(new SpecialSquare("a7"));
+        squares.add(new SpecialSquare("a8"));
         // B
         squares.add(new Square("b1"));
         squares.add(new Square("b2", new King(IPiece.BACK_PIECE)));
@@ -429,14 +431,14 @@ public class Boards {
         squares.add(new Square("g7"));
         squares.add(new Square("g8"));
         // H
-        squares.add(new Square("h1"));
-        squares.add(new Square("h2"));
-        squares.add(new Square("h3"));
-        squares.add(new Square("h4"));
-        squares.add(new Square("h5"));
-        squares.add(new Square("h6"));
-        squares.add(new Square("h7"));
-        squares.add(new Square("h8", new King(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("h1"));
+        squares.add(new SpecialSquare("h2"));
+        squares.add(new SpecialSquare("h3"));
+        squares.add(new SpecialSquare("h4"));
+        squares.add(new SpecialSquare("h5"));
+        squares.add(new SpecialSquare("h6"));
+        squares.add(new SpecialSquare("h7"));
+        squares.add(new SpecialSquare("h8", new King(IPiece.BACK_PIECE)));
 
         return squares;
     }
@@ -444,14 +446,14 @@ public class Boards {
     private ArrayList<ISquare> boardKnightMoves(){
         ArrayList<ISquare> squares = new ArrayList<>();
         // A
-        squares.add(new Square("a1", new Knight(IPiece.BACK_PIECE)));
-        squares.add(new Square("a2"));
-        squares.add(new Square("a3"));
-        squares.add(new Square("a4"));
-        squares.add(new Square("a5"));
-        squares.add(new Square("a6"));
-        squares.add(new Square("a7"));
-        squares.add(new Square("a8", new Knight(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("a1", new Knight(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("a2"));
+        squares.add(new SpecialSquare("a3"));
+        squares.add(new SpecialSquare("a4"));
+        squares.add(new SpecialSquare("a5"));
+        squares.add(new SpecialSquare("a6"));
+        squares.add(new SpecialSquare("a7"));
+        squares.add(new SpecialSquare("a8", new Knight(IPiece.BACK_PIECE)));
         // B
         squares.add(new Square("b1"));
         squares.add(new Square("b2", new Knight(IPiece.BACK_PIECE)));
@@ -507,14 +509,14 @@ public class Boards {
         squares.add(new Square("g7"));
         squares.add(new Square("g8"));
         // H
-        squares.add(new Square("h1", new Knight(IPiece.FRONT_PIECE)));
-        squares.add(new Square("h2"));
-        squares.add(new Square("h3"));
-        squares.add(new Square("h4"));
-        squares.add(new Square("h5"));
-        squares.add(new Square("h6"));
-        squares.add(new Square("h7"));
-        squares.add(new Square("h8", new Knight(IPiece.BACK_PIECE)));
+        squares.add(new SpecialSquare("h1", new Knight(IPiece.FRONT_PIECE)));
+        squares.add(new SpecialSquare("h2"));
+        squares.add(new SpecialSquare("h3"));
+        squares.add(new SpecialSquare("h4"));
+        squares.add(new SpecialSquare("h5"));
+        squares.add(new SpecialSquare("h6"));
+        squares.add(new SpecialSquare("h7"));
+        squares.add(new SpecialSquare("h8", new Knight(IPiece.BACK_PIECE)));
 
         return squares;
     }

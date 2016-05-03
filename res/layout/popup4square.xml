@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#fff"
+              android:weightSum="1">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vous pouvez améliorer votre pion!"
+            android:id="@+id/test_dialog"
+            android:background="#a7823d"
+            android:gravity="fill_vertical|center_horizontal"
+            android:textSize="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textColor="#fff"/>
+    <Button
+            android:id="@+id/buttonQueen"
+            android:text="Queen"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    <Button
+            android:id="@+id/buttonTower"
+            android:text="Tower"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    <Button
+            android:id="@+id/buttonBishop"
+            android:text="Bishop"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    <Button
+            android:id="@+id/buttonKnight"
+            android:text="Knight"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+</LinearLayout>
+

@@ -1,4 +1,4 @@
-package fr.snak.chess.Models;
+package fr.snak.chess.Pieces;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import fr.snak.chess.Boards.ChessBoard;
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Interfaces.ISquare;
 import fr.snak.chess.R;

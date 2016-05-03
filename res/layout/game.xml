@@ -5,7 +5,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:weightSum="1">
-    <fr.snak.chess.Models.ChessBoard
+    <fr.snak.chess.Boards.ChessBoard
             android:id="@+id/chessboard"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>

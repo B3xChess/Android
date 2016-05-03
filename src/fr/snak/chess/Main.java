@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import fr.snak.chess.View.Game;
-import fr.snak.chess.Models.*;
 
 
 public class Main extends Activity implements View.OnClickListener {
