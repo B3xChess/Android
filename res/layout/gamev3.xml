@@ -5,127 +5,46 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:weightSum="1">
-    <ScrollView
+
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView" android:layout_gravity="center_horizontal">
-        <LinearLayout
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Pawn's moves"
-                    android:id="@+id/textPawn"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutPawnsMove">
-            </RelativeLayout >
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Bishop's moves"
-                    android:id="@+id/textBishop"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutBishopsMove">
-            </RelativeLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Tower's moves"
-                    android:id="@+id/textTower"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutTowersMove">
-            </RelativeLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Knight's moves"
-                    android:id="@+id/textKnight"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutKnightsMove">
-            </RelativeLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Queen's moves"
-                    android:id="@+id/textQueen"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutQueensMove">
-            </RelativeLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="King's moves"
-                    android:id="@+id/textKing"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutKingsMove">
-            </RelativeLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Game n°1"
-                    android:id="@+id/textGameOne"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutGameOneMove">
-            </RelativeLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Game n°2"
-                    android:id="@+id/textGameTwo"
-                    android:layout_gravity="center_horizontal"/>
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/gameLayoutGameTwoMove">
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/gameLayoutGameOneMove"
+        >
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+    >
+        <ListView
+                android:id="@+id/listViewFirstMove"
+                android:layout_width="0.5dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+        >
+
+        </ListView>
+
+        <ListView
+                android:id="@+id/listViewSecondMove"
+                android:layout_width="0.5dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+        >
+
+        </ListView>
+
+    </LinearLayout>
 </LinearLayout>
 
