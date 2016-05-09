@@ -3,6 +3,9 @@ package fr.snak.chess.Boards;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,8 +14,10 @@ import android.widget.RelativeLayout;
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Interfaces.ISquare;
 import fr.snak.chess.Models.Player;
+import fr.snak.chess.Pieces.Knight;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,14 +33,43 @@ public class ChessBoard extends View implements View.OnTouchListener {
 
     private Player playerTurn;
     private ArrayList<Player> listPlayer;
+    private ArrayList<String> refColumn;
+    //Map contain what we have to print depending on IPiece
+    private HashMap<String,String>  refPiece;
+    private Handler myHandler;
 
-    public ChessBoard(Context context, ArrayList<ISquare> chessboard, ArrayList<Player> listPlayer) {
+    public ChessBoard(Context context, ArrayList<ISquare> chessboard, ArrayList<Player> listPlayer, Handler handler) {
         super(context);
         this.chessboard = chessboard;
         this.setOnTouchListener(this);
 
         this.listPlayer = listPlayer;
         this.playerTurn = listPlayer.get(0);
+
+        refColumn = new ArrayList<String> () {{
+            add("a");
+            add("b");
+            add("c");
+            add("d");
+            add("e");
+            add("f");
+            add("g");
+        } };
+
+        refPiece = new HashMap<String,String>() {{
+            put("fr.snak.chess.Pieces.Bishop","B");
+            put("fr.snak.chess.Pieces.King","K");
+            put("fr.snak.chess.Pieces.Knight","N");
+            put("fr.snak.chess.Pieces.Pawn","");
+            put("fr.snak.chess.Pieces.Queen","Q");
+            put("fr.snak.chess.Pieces.Tower","T");
+            //Rock
+            //Promot
+            //Chess (+)
+        } };
+
+        this.myHandler= handler;
+
     }
 
     public static int currentLine(int index) {
@@ -150,24 +184,28 @@ public class ChessBoard extends View implements View.OnTouchListener {
             int topImage = margin / 2 + ref / NB_SQUARE_PAR_LINE * line + (int) (ref / NB_SQUARE_PAR_LINE * 0.2);
 
             if (selectedSquare != null) {
-                IPiece piece;
                 switch (square.getStatus()) {
                     case ISquare.STATUS_MOVE:
+                        //Move
                         square.add(selectedSquare.getPiece());
                         selectedSquare.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
                         upgradePiece(square);
-                        changeTurn();
+                        //changeTurn();
                         break;
                     case ISquare.STATUS_TARGETABLE:
+                        //Eat
                         square.getPiece().hideImage();
                         square.add(selectedSquare.getPiece());
                         square.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
                         upgradePiece(square);
-                        changeTurn();
+                        //changeTurn();
                         break;
                 }
+
+                addMoves(square.getPiece(),line,column);
+                changeTurn();
             }
 
             this.resetSquares();
@@ -181,6 +219,7 @@ public class ChessBoard extends View implements View.OnTouchListener {
             } else {
                 selectedSquare = null;
             }
+
             this.invalidate();
         }
         return false;
@@ -225,12 +264,61 @@ public class ChessBoard extends View implements View.OnTouchListener {
         return value;
     }
 
+    //Allow the other player to play
     private void changeTurn() {
         if (playerTurn == listPlayer.get(0)) {
             playerTurn = listPlayer.get(1);
         } else {
             playerTurn = listPlayer.get(0);
         }
+    }
+
+    //Save Moves
+    private void addMoves(IPiece piece,int lineEnd, int columnEnd) {
+        //Remove comment if we want to print all the move
+        /*
+        int lineStart=-1,columnStart=-1;
+        System.out.println("line : " + lineEnd);
+        System.out.println("column  : " + columnEnd);
+        */
+        //Piece
+        String p = refPiece.get(piece.getClass().toString().substring(6));
+
+        /*
+        for (int i=0; i < 8 ; i++) {
+            for (int j=0; j < 8 ; j++) {
+                if(selectedSquare == getSquare(i,j)) {
+                    lineStart = i;
+                    columnStart = j;
+                    break;
+                }
+            }
+        }
+        System.out.println("START");
+        System.out.println("LINE : " + lineStart);
+        System.out.println("COLUMN : " + columnStart);
+        //Piece-Start(coumn,line)-End(column,line)
+
+        System.out.println("column name : " + refColumn.get(columnStart));
+
+        System.out.println("RESULT");
+        System.out.println(p+refColumn.get(columnStart)+(lineStart+1)+"-"+refColumn.get(columnEnd)+(lineEnd+1));
+        */
+        //System.out.println(p+refColumn.get(columnEnd)+(lineEnd+1));
+        String move = p+refColumn.get(columnEnd)+(lineEnd+1);
+
+        int player;
+        if(playerTurn==listPlayer.get(0)) {
+            player = 0;
+        } else {
+            player = 1;
+        }
+        Message msgObj = new Message();
+        Bundle bundle = new Bundle();
+        bundle.putInt("player",player);
+        bundle.putString("move",move);
+        msgObj.setData(bundle);
+        myHandler.sendMessage(msgObj);
     }
 
 }

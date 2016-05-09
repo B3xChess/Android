@@ -3,16 +3,16 @@ package fr.snak.chess.View;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleCursorAdapter;
+import android.widget.*;
 import fr.snak.chess.Boards.Boards;
 import fr.snak.chess.Boards.ChessBoard;
 import fr.snak.chess.Models.Player;
 import fr.snak.chess.R;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -23,15 +23,23 @@ import java.util.List;
  * Created by sylvain on 09/03/2016.
  */
 public class Game extends Activity {
+    //Name
+    private TextView textViewFirstPlayer;
+    private TextView textViewSecondPlayer;
 
-    private ListView listViewFirstMove;
-    private ListView listViewSecondMove;
+    //List Move
+    private ListView listViewMoveFirstPlayer;
+    private ListView listViewMoveSecondPlayer;
+
+    private ArrayList<String> listMoveFirstPlayer;
+    private ArrayList<String> listMoveSecondPlayer;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gamev3);
         RelativeLayout layout;    // = (LinearLayout) findViewById(R.id.gameLayoutOne);
 
+        //Get listPlayer
         Bundle extras = getIntent().getExtras();
         ArrayList<Player> listPlayer = extras.getParcelableArrayList("listPlayer");
 
@@ -45,14 +53,14 @@ public class Game extends Activity {
         int width = size.x;
         int height = size.y;
         int reference;
-        if(width>height){
+        if (width > height) {
             reference = height;
-        }else{
+        } else {
             reference = width;
         }
 
         RelativeLayout.LayoutParams params;
-        params = new RelativeLayout.LayoutParams(reference,reference);
+        params = new RelativeLayout.LayoutParams(reference, reference);
 /*
         //TOWER
         //board = new Boards(Boards.BOARD_TEST_MOVES_TOWER);
@@ -118,33 +126,59 @@ public class Game extends Activity {
         chessboard = new ChessBoard(this, board.getBoard());
         layout.addView(chessboard, params);
         */
-        //GAME
-            //ListMove
-        ArrayList<String> movesFirst = new ArrayList<String>();
-        ArrayList<String> movesSecond = new ArrayList<String>();
+        //--GAME--\\
+        //Name
+            //First
+        textViewFirstPlayer = (TextView) findViewById(R.id.textViewFirstPlayer);
+        textViewFirstPlayer.setText(listPlayer.get(0).getName());
+            //Second
+        textViewSecondPlayer = (TextView) findViewById(R.id.textViewSecondPlayer);
+        textViewSecondPlayer.setText(listPlayer.get(1).getName());
 
-        for (int i=0; i < listPlayer.size() ; i++) {
-            if(i%2==0) {
-                movesFirst.add(listPlayer.get(i).getName());
-            } else {
-                movesSecond.add(listPlayer.get(i).getName());
+        //Initilisation
+        listMoveFirstPlayer = new ArrayList<>();
+        listMoveSecondPlayer = new ArrayList<>();
+
+        //handler
+        Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                //System.out.println("MESSAGE : " + msg);
+                int player = msg.getData().getInt("player");
+                String move = msg.getData().getString("move");
+
+                showMoves(player, move);
+
             }
-        }
-
-        listViewFirstMove = (ListView) findViewById(R.id.listViewFirstMove);
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.liste_view_item, movesFirst);
-        listViewFirstMove.setAdapter(adapter);
-
-        listViewSecondMove = (ListView) findViewById(R.id.listViewSecondMove);
-        adapter = new ArrayAdapter<String>(this, R.layout.liste_view_item, movesSecond);
-        listViewSecondMove.setAdapter(adapter);
-
+        };
+        //Board
         layout = (RelativeLayout) findViewById(R.id.gameLayoutGameOneMove);
         board = new Boards(Boards.BOARD_DEFAULT);
         //chessboard = new ChessBoard(this, board.getBoard());
-        chessboard = new ChessBoard(this, board.getBoard(),listPlayer);
+        //chessboard = new ChessBoard(this, board.getBoard(),listPlayer);
+        chessboard = new ChessBoard(this, board.getBoard(), listPlayer, handler);
         layout.addView(chessboard, params);
     }
 
+    private void showMoves(int player, String move) {
+        System.out.println("player : " + player);
+        System.out.println("move : " + move);
+        switch (player) {
+            case 0:
+                listMoveFirstPlayer.add(move);
+                break;
+            case 1:
+                listMoveSecondPlayer.add(move);
+                break;
+        }
 
+        //First Player
+        listViewMoveFirstPlayer = (ListView) findViewById(R.id.listViewMoveFirstPlayer);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.liste_view_item, listMoveFirstPlayer);
+        listViewMoveFirstPlayer.setAdapter(adapter);
+
+        //Second Player
+        listViewMoveSecondPlayer = (ListView) findViewById(R.id.listViewMoveSecondPlayer);
+        adapter = new ArrayAdapter<String>(this, R.layout.liste_view_item, listMoveSecondPlayer);
+        listViewMoveSecondPlayer.setAdapter(adapter);
+    }
 }

@@ -3,7 +3,6 @@ package fr.snak.chess.View;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,11 +12,7 @@ import android.widget.*;
 import fr.snak.chess.Interfaces.IPiece;
 import fr.snak.chess.Models.Player;
 import fr.snak.chess.R;
-import org.w3c.dom.Text;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sylvain on 03/05/2016.
