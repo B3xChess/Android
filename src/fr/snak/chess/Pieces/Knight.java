@@ -29,7 +29,7 @@ public class Knight implements IPiece {
     }
 
     @Override
-    public void showMoves(ArrayList<ISquare> chessboard) {
+    public void detectMoves(ArrayList<ISquare> chessboard, boolean show) {
         int index = -1;
         ISquare square;
         for(int i =0; i < chessboard.size(); i++){
@@ -43,18 +43,18 @@ public class Knight implements IPiece {
             }
         }
         if(index != -1) {
-            getMove(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE*2+1,+1);
-            getMove(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE*2-1,-1);
-            getMove(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE+2,+1);
-            getMove(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE-2,-1);
-            getMove(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE*2+1,+1);
-            getMove(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE*2-1,-1);
-            getMove(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE+2,+1);
-            getMove(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE-2,-1);
+            getMove(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE*2+1,+1);
+            getMove(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE*2-1,-1);
+            getMove(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE+2,+1);
+            getMove(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE-2,-1);
+            getMove(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE*2+1,+1);
+            getMove(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE*2-1,-1);
+            getMove(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE+2,+1);
+            getMove(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE-2,-1);
         }
     }
 
-    private void getMove(ArrayList<ISquare> chessboard, int index, int step, int bord) {
+    private void getMove(ArrayList<ISquare> chessboard, boolean show, int index, int step, int bord) {
         int i = index;
         int column = ChessBoard.currentColumn(i);
         i += step;
@@ -72,12 +72,21 @@ public class Knight implements IPiece {
             }
             if(square != null) {
                 if (!square.isEmpty()) {
+                    if(!show){
+                        square.setStatus(ISquare.STATUS_DANGEROUS);
+                    }
                     IPiece piece = square.getPiece();
                     if (piece.getType() != type) {
-                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                        if(show) {
+                            square.setStatus(ISquare.STATUS_TARGETABLE);
+                        }
                     }
                 } else {
-                    square.setStatus(ISquare.STATUS_MOVE);
+                    if(show){
+                        square.setStatus(ISquare.STATUS_MOVE);
+                    }else{
+                        square.setStatus(ISquare.STATUS_DANGEROUS);
+                    }
                 }
             }
         }

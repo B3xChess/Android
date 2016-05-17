@@ -1,24 +1,23 @@
 package fr.snak.chess.Boards;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import fr.snak.chess.Interfaces.IPiece;
-import fr.snak.chess.Interfaces.ISquare;
 import fr.snak.chess.Models.Player;
-import fr.snak.chess.Pieces.Knight;
+import fr.snak.chess.Interfaces.ISquare;
+import fr.snak.chess.Pieces.King;
+import fr.snak.chess.Pieces.Pawn;
+import fr.snak.chess.Squares.SpecialSquare;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Nautile on 09/03/2016.
@@ -38,13 +37,20 @@ public class ChessBoard extends View implements View.OnTouchListener {
     private HashMap<String,String>  refPiece;
     private Handler myHandler;
 
+    private boolean currentKingCanMove;
+
     public ChessBoard(Context context, ArrayList<ISquare> chessboard, ArrayList<Player> listPlayer, Handler handler) {
         super(context);
         this.chessboard = chessboard;
         this.setOnTouchListener(this);
 
         this.listPlayer = listPlayer;
-        this.playerTurn = listPlayer.get(0);
+        //this.playerTurn = listPlayer.get(0);
+        if(listPlayer.get(0).getColor() == IPiece.FRONT_PIECE) {
+            this.playerTurn = listPlayer.get(0);
+        } else {
+            this.playerTurn = listPlayer.get(1);
+        }
 
         refColumn = new ArrayList<String> () {{
             add("a");
@@ -54,6 +60,7 @@ public class ChessBoard extends View implements View.OnTouchListener {
             add("e");
             add("f");
             add("g");
+            add("h");
         } };
 
         refPiece = new HashMap<String,String>() {{
@@ -191,7 +198,8 @@ public class ChessBoard extends View implements View.OnTouchListener {
                         selectedSquare.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
                         upgradePiece(square);
-                        //changeTurn();
+                        addMoves(square.getPiece(),line,column);
+                        changeTurn();
                         break;
                     case ISquare.STATUS_TARGETABLE:
                         //Eat
@@ -200,22 +208,24 @@ public class ChessBoard extends View implements View.OnTouchListener {
                         square.getPiece().animate(leftImage, topImage);
                         selectedSquare.remove();
                         upgradePiece(square);
-                        //changeTurn();
+                        addMoves(square.getPiece(),line,column);
+                        changeTurn();
                         break;
                 }
 
-                addMoves(square.getPiece(),line,column);
-                changeTurn();
+                //addMoves(square.getPiece(),line,column);
+                //changeTurn();
             }
 
             this.resetSquares();
             if (selectedSquare == null) {
-                square.setStatus(ISquare.STATUS_SELECTED);
                 IPiece piece = square.getPiece();
                 if (piece != null && piece.getType() == playerTurn.getColor()) {
-                    piece.showMoves(this.chessboard);
+                    detectDangerousSquare();
+                    piece.detectMoves(this.chessboard, true);
                     selectedSquare = square;
                 }
+                square.setStatus(ISquare.STATUS_SELECTED);
             } else {
                 selectedSquare = null;
             }
@@ -225,9 +235,32 @@ public class ChessBoard extends View implements View.OnTouchListener {
         return false;
     }
 
-    protected void upgradePiece(ISquare square) {
-        if (square.getClass().getName().equals("fr.snak.chess.Squares.SpecialSquare")) {
-            if (!square.isEmpty() && square.getPiece().getClass().getName().equals("fr.snak.chess.Pieces.Pawn")) {
+    private void detectDangerousSquare(){
+        for(ISquare square : this.chessboard){
+            if(!square.isEmpty()){
+                IPiece piece = square.getPiece();
+                if(piece.getType() != this.playerTurn.getColor()){
+                    piece.detectMoves(this.chessboard,false);
+                }
+            }
+        }
+        for(ISquare square : this.chessboard){
+            if(!square.isEmpty()){
+                IPiece piece = square.getPiece();
+                if(piece.getType() == this.playerTurn.getColor()){
+                    if(piece.getClass().getName().equals(King.class.getName())){
+                        King myKing = (King) piece;
+                        currentKingCanMove = myKing.canMove();
+                        System.out.println("MY KING CAN MOVE : "+currentKingCanMove);
+                    }
+                }
+            }
+        }
+    }
+
+    private void upgradePiece(ISquare square) {
+        if (square.getClass().getName().equals(SpecialSquare.class.getName())) {
+            if (!square.isEmpty() && square.getPiece().getClass().getName().equals(Pawn.class.getName())) {
                 PopupUpgrade cdd = new PopupUpgrade(this, square);
                 cdd.show();
             }

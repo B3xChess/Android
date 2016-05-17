@@ -29,7 +29,7 @@ public class Tower implements IPiece {
     }
 
     @Override
-    public void showMoves(ArrayList<ISquare> chessboard) {
+    public void detectMoves(ArrayList<ISquare> chessboard, boolean show) {
         int index = -1;
         ISquare square;
         for(int i =0; i < chessboard.size(); i++){
@@ -43,14 +43,14 @@ public class Tower implements IPiece {
             }
         }
         if(index != -1) {
-            getLine(chessboard, index, -1);
-            getLine(chessboard, index, 1);
-            getColumn(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE);
-            getColumn(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE);
+            getLine(chessboard, show, index, -1);
+            getLine(chessboard, show, index, 1);
+            getColumn(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE);
+            getColumn(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE);
         }
     }
 
-    private void getLine(ArrayList<ISquare> chessboard, int index, int step){
+    private void getLine(ArrayList<ISquare> chessboard, boolean show, int index, int step){
         int i = index;
         int line = ChessBoard.currentLine(i);
         i += step;
@@ -58,31 +58,53 @@ public class Tower implements IPiece {
         while (newLine == line && i < chessboard.size() && i >= 0) {
             ISquare square = chessboard.get(i);
             if (!square.isEmpty()) {
+                if(!show){
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
                 IPiece piece = square.getPiece();
                 if (piece.getType() != type) {
-                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                    if(show){
+                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                    }
                 }
-                break;
+                if(!(!show && piece.getClass().getName().equals("fr.snak.chess.Pieces.King"))){
+                    break;
+                }
             }
-            square.setStatus(ISquare.STATUS_MOVE);
+            if(show){
+                square.setStatus(ISquare.STATUS_MOVE);
+            }else{
+                square.setStatus(ISquare.STATUS_DANGEROUS);
+            }
             i += step;
             newLine = ChessBoard.currentLine(i);
         }
     }
 
-    private void getColumn(ArrayList<ISquare> chessboard, int index, int step){
+    private void getColumn(ArrayList<ISquare> chessboard, boolean show, int index, int step){
         int i = index;
         i += step;
         while (i < chessboard.size() && i >= 0){
             ISquare square = chessboard.get(i);
             if(!square.isEmpty()){
+                if(!show){
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
                 IPiece piece = square.getPiece();
                 if(piece.getType() != type){
-                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                    if(show){
+                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                    }
                 }
-                break;
+                if(!(!show && piece.getClass().getName().equals(King.class.getName()))){
+                    break;
+                }
             }
-            square.setStatus(ISquare.STATUS_MOVE);
+            if(show){
+                square.setStatus(ISquare.STATUS_MOVE);
+            }else{
+                square.setStatus(ISquare.STATUS_DANGEROUS);
+            }
             i += step;
         }
     }

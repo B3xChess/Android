@@ -30,7 +30,7 @@ public class Bishop implements IPiece {
     }
 
     @Override
-    public void showMoves(ArrayList<ISquare> chessboard) {
+    public void detectMoves(ArrayList<ISquare> chessboard, boolean show) {
         int index = -1;
         ISquare square;
         for(int i =0; i < chessboard.size(); i++){
@@ -44,13 +44,13 @@ public class Bishop implements IPiece {
             }
         }
         if(index != -1) {
-            getDiagonal(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE-1);
-            getDiagonal(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE+1);
-            getDiagonal(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE+1);
-            getDiagonal(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE-1);
+            getDiagonal(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE-1);
+            getDiagonal(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE+1);
+            getDiagonal(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE+1);
+            getDiagonal(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE-1);
         }
     }
-    private void getDiagonal(ArrayList<ISquare> chessboard, int index, int step){
+    private void getDiagonal(ArrayList<ISquare> chessboard, boolean show, int index, int step){
         int i = index;
         int line = ChessBoard.currentLine(i);
         i += step;
@@ -64,13 +64,24 @@ public class Bishop implements IPiece {
             }
             ISquare square = chessboard.get(i);
             if(!square.isEmpty()){
+                if(!show){
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
                 IPiece piece = square.getPiece();
                 if(piece.getType() != type){
-                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                    if(show){
+                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                    }
                 }
-                break;
+                if(!(!show && piece.getClass().getName().equals("fr.snak.chess.Pieces.King"))){
+                    break;
+                }
             }
-            square.setStatus(ISquare.STATUS_MOVE);
+            if(show){
+                square.setStatus(ISquare.STATUS_MOVE);
+            }else{
+                square.setStatus(ISquare.STATUS_DANGEROUS);
+            }
             i += step;
         }
     }

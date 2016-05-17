@@ -29,7 +29,7 @@ public class Pawn implements IPiece {
     }
 
     @Override
-    public void showMoves(ArrayList<ISquare> chessboard) {
+    public void detectMoves(ArrayList<ISquare> chessboard, boolean show) {
         int index = -1;
         ISquare square;
         for(int i =0; i < chessboard.size(); i++){
@@ -48,17 +48,21 @@ public class Pawn implements IPiece {
                 if(newIndex >= 0) {
                     square = chessboard.get(newIndex);
                     if (square.isEmpty()) {
-                        square.setStatus(ISquare.STATUS_MOVE);
+                        if(show){
+                            square.setStatus(ISquare.STATUS_MOVE);
+                        }
                         if (index < ChessBoard.NB_SQUARE_PAR_LINE * 7 && index >= ChessBoard.NB_SQUARE_PAR_LINE * 6) {
                             square = chessboard.get(index - ChessBoard.NB_SQUARE_PAR_LINE * 2);
                             if (square.isEmpty()) {
-                                square.setStatus(ISquare.STATUS_MOVE);
+                                if(show){
+                                    square.setStatus(ISquare.STATUS_MOVE);
+                                }
                             }
                         }
                     }
                     if (index != -1) {
-                        squareEated(chessboard, index, -9, -1);
-                        squareEated(chessboard, index, -7, +1);
+                        squareEated(chessboard, show, index, -9, -1);
+                        squareEated(chessboard, show, index, -7, +1);
                     }
                 }
             }else{
@@ -66,24 +70,28 @@ public class Pawn implements IPiece {
                 if(newIndex < chessboard.size()) {
                     square = chessboard.get(newIndex);
                     if (square.isEmpty()) {
-                        square.setStatus(ISquare.STATUS_MOVE);
+                        if(show){
+                            square.setStatus(ISquare.STATUS_MOVE);
+                        }
                         if (index < ChessBoard.NB_SQUARE_PAR_LINE * 2 && index >= ChessBoard.NB_SQUARE_PAR_LINE) {
                             square = chessboard.get(newIndex + ChessBoard.NB_SQUARE_PAR_LINE);
                             if (square.isEmpty()) {
-                                square.setStatus(ISquare.STATUS_MOVE);
+                                if(show){
+                                    square.setStatus(ISquare.STATUS_MOVE);
+                                }
                             }
                         }
                     }
                     if (index != -1) {
-                        squareEated(chessboard, index, +9, +1);
-                        squareEated(chessboard, index, +7, -1);
+                        squareEated(chessboard, show, index, +9, +1);
+                        squareEated(chessboard, show, index, +7, -1);
                     }
                 }
             }
         }
     }
 
-    private void squareEated(ArrayList<ISquare> chessboard, int index, int step, int bord) {
+    private void squareEated(ArrayList<ISquare> chessboard, boolean show, int index, int step, int bord) {
         int i = index;
         int column = ChessBoard.currentColumn(i);
         i += step;
@@ -100,10 +108,15 @@ public class Pawn implements IPiece {
                 }
             }
             if(square != null) {
+                if(!show){
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
                 if (!square.isEmpty()) {
                     IPiece piece = square.getPiece();
                     if (piece.getType() != type) {
-                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                        if(show){
+                            square.setStatus(ISquare.STATUS_TARGETABLE);
+                        }
                     }
                 }
             }

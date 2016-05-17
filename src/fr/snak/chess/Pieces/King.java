@@ -22,6 +22,8 @@ public class King implements IPiece {
     private int type;
     private ImageView imageView;
     private int topView, leftView;
+    private boolean canMove;
+    private boolean isFocused;
 
     public King(int type){
         this.type = type;
@@ -29,7 +31,8 @@ public class King implements IPiece {
     }
 
     @Override
-    public void showMoves(ArrayList<ISquare> chessboard) {
+    public void detectMoves(ArrayList<ISquare> chessboard, boolean show) {
+        this.canMove = false;
         int index = -1;
         ISquare square;
         for(int i =0; i < chessboard.size(); i++){
@@ -43,18 +46,18 @@ public class King implements IPiece {
             }
         }
         if(index != -1) {
-            getDiagonal(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE-1);
-            getDiagonal(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE+1);
-            getDiagonal(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE+1);
-            getDiagonal(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE-1);
-            getLine(chessboard, index, -1);
-            getLine(chessboard, index, 1);
-            getColumn(chessboard, index, ChessBoard.NB_SQUARE_PAR_LINE);
-            getColumn(chessboard, index, -ChessBoard.NB_SQUARE_PAR_LINE);
+            getDiagonal(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE-1);
+            getDiagonal(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE+1);
+            getDiagonal(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE+1);
+            getDiagonal(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE-1);
+            getLine(chessboard, show, index, -1);
+            getLine(chessboard, show, index, 1);
+            getColumn(chessboard, show, index, ChessBoard.NB_SQUARE_PAR_LINE);
+            getColumn(chessboard, show, index, -ChessBoard.NB_SQUARE_PAR_LINE);
         }
     }
 
-    private void getLine(ArrayList<ISquare> chessboard, int index, int step){
+    private void getLine(ArrayList<ISquare> chessboard, boolean show, int index, int step){
         int i = index;
         int line = ChessBoard.currentLine(i);
         i += step;
@@ -62,32 +65,59 @@ public class King implements IPiece {
         if (newLine == line && i < chessboard.size() && i >= 0) {
             ISquare square = chessboard.get(i);
             if (!square.isEmpty()) {
+                if(!show){
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
                 IPiece piece = square.getPiece();
                 if (piece.getType() != type) {
-                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                    if(show){
+                        if(square.getStatus() != ISquare.STATUS_DANGEROUS) {
+                            square.setStatus(ISquare.STATUS_TARGETABLE);
+                        }
+                    }
                 }
             }else {
-                square.setStatus(ISquare.STATUS_MOVE);
+                if(show){
+                    if(square.getStatus() != ISquare.STATUS_DANGEROUS) {
+                        square.setStatus(ISquare.STATUS_MOVE);
+                    }
+                }else{
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
             }
         }
     }
 
-    private void getColumn(ArrayList<ISquare> chessboard, int index, int step){
+    private void getColumn(ArrayList<ISquare> chessboard, boolean show, int index, int step){
         int i = index + step;
         if (i < chessboard.size() && i >= 0){
             ISquare square = chessboard.get(i);
             if(!square.isEmpty()){
+                if(!show){
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
                 IPiece piece = square.getPiece();
                 if(piece.getType() != type){
-                    square.setStatus(ISquare.STATUS_TARGETABLE);
+                    if(show){
+                        if(square.getStatus() != ISquare.STATUS_DANGEROUS) {
+                            square.setStatus(ISquare.STATUS_TARGETABLE);
+                        }
+                    }
                 }
             }else {
-                square.setStatus(ISquare.STATUS_MOVE);
+                this.canMove = true;
+                if(show){
+                    if(square.getStatus() != ISquare.STATUS_DANGEROUS) {
+                        square.setStatus(ISquare.STATUS_MOVE);
+                    }
+                }else{
+                    square.setStatus(ISquare.STATUS_DANGEROUS);
+                }
             }
         }
     }
 
-    private void getDiagonal(ArrayList<ISquare> chessboard, int index, int step) {
+    private void getDiagonal(ArrayList<ISquare> chessboard, boolean show, int index, int step) {
         int i = index;
         int line = ChessBoard.currentLine(i);
         i += step;
@@ -96,12 +126,26 @@ public class King implements IPiece {
             if (newLine == line + (int) Math.signum(step)) {
                 ISquare square = chessboard.get(i);
                 if (!square.isEmpty()) {
+                    if(!show){
+                        square.setStatus(ISquare.STATUS_DANGEROUS);
+                    }
                     IPiece piece = square.getPiece();
                     if (piece.getType() != type) {
-                        square.setStatus(ISquare.STATUS_TARGETABLE);
+                        if(show){
+                            if(square.getStatus() != ISquare.STATUS_DANGEROUS) {
+                                square.setStatus(ISquare.STATUS_TARGETABLE);
+                            }
+                        }
                     }
                 }else{
-                    square.setStatus(ISquare.STATUS_MOVE);
+                    this.canMove = true;
+                    if(show){
+                        if(square.getStatus() != ISquare.STATUS_DANGEROUS) {
+                            square.setStatus(ISquare.STATUS_MOVE);
+                        }
+                    }else{
+                        square.setStatus(ISquare.STATUS_DANGEROUS);
+                    }
                 }
             }
         }
@@ -181,5 +225,9 @@ public class King implements IPiece {
                 "value=" + value +
                 ", type=" + type +
                 '}';
+    }
+
+    public boolean canMove() {
+        return this.canMove;
     }
 }

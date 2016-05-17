@@ -13,7 +13,7 @@ public interface IPiece {
     int BACK_PIECE = 21;
     int getValue();
     int getType();
-    void showMoves(ArrayList<ISquare> chessboard);
+    void detectMoves(ArrayList<ISquare> chessboard, boolean show);
 
     void setImage(Context context, RelativeLayout myLayout, int width, int height, int left, int top);
     void animate(int left, int top);
