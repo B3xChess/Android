@@ -18,7 +18,7 @@ import fr.snak.chess.R;
  */
 public class PopupUpgrade extends Dialog implements android.view.View.OnClickListener {
 
-    public Button buttonQueen,buttonBishop,buttonKnight,buttonTower;
+    public Button buttonQueen, buttonBishop, buttonKnight, buttonTower;
     private ISquare square;
     private ChessBoard chessBoard;
 
@@ -33,20 +33,25 @@ public class PopupUpgrade extends Dialog implements android.view.View.OnClickLis
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.popup4square);
+
+        //Queen
         buttonQueen = (Button) findViewById(R.id.buttonQueen);
-        buttonBishop = (Button) findViewById(R.id.buttonBishop);
-        buttonKnight = (Button) findViewById(R.id.buttonKnight);
-        buttonTower = (Button) findViewById(R.id.buttonTower);
         buttonQueen.setOnClickListener(this);
+        //Bishop
+        buttonBishop = (Button) findViewById(R.id.buttonBishop);
         buttonBishop.setOnClickListener(this);
+        //Knight
+        buttonKnight = (Button) findViewById(R.id.buttonKnight);
         buttonKnight.setOnClickListener(this);
+        //Tower
+        buttonTower = (Button) findViewById(R.id.buttonTower);
         buttonTower.setOnClickListener(this);
 
-        }
+    }
 
     @Override
     public void onClick(View v) {
-        if(!this.square.isEmpty()){
+        if (!this.square.isEmpty()) {
             int type = square.getPiece().getType();
             square.getPiece().hideImage();
             switch (v.getId()) {

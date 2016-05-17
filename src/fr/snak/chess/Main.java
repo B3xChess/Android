@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import fr.snak.chess.View.Game;
+import fr.snak.chess.View.TypeGame;
 
 
 public class Main extends Activity implements View.OnClickListener {
@@ -32,8 +33,14 @@ public class Main extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        /*
         if( v == buttonGame ) {
             Intent intent = new Intent(this, Game.class);
+            startActivity(intent);
+        }
+        */
+        if (v == buttonGame) {
+            Intent intent = new Intent(this, TypeGame.class);
             startActivity(intent);
         }
 

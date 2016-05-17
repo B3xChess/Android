@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Chess</string>
+
+    <!--Main-->
+
+
+    <!--TypeGame-->
+    <string name="onePlayer">One Player</string>
+    <string name="twoPlayer">Two Player</string>
+    <string name="online">Online</string>
+
+    <!--TypeGameDialog-->
+    <string name="firstPlayer">Player n°1</string>
+    <string name="namePlayer">Name</string>
+    <string name="secondPlayer">Player n°2</string>
+    <string name="buttonCancel">Cancel</string>
+    <string name="buttonStart">Start</string>
+
 </resources>

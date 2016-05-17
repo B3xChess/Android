@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+>
+
+    <Button
+            android:id = "@+id/buttonOnePlayer"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+    />
+
+    <Button
+            android:id = "@+id/buttonTwoPlayer"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+    />
+
+    <Button
+            android:id = "@+id/buttonOnline"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+    />
+
+
+</LinearLayout>
+
