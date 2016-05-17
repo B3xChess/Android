@@ -9,7 +9,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vous pouvez améliorer votre pion!"
+            android:text="Update your pawn!"
             android:id="@+id/test_dialog"
             android:background="#a7823d"
             android:gravity="fill_vertical|center_horizontal"
